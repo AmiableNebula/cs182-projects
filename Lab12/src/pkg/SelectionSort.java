@@ -4,6 +4,8 @@ import java.util.Random;
 
 public class SelectionSort {
 	public static void main (String[] args) {
+		// This is a test comment
+		
 		// Get program start time
 		long startTime = System.nanoTime();
 		
