@@ -4,13 +4,11 @@ import java.util.Random;
 
 public class SelectionSort {
 	public static void main (String[] args) {
-		// This is a test comment
-		
 		// Get program start time
 		long startTime = System.nanoTime();
 		
 		// Peform selection sort on randomized array
-		selectionSort (genIntArray (1000000));
+		selectionSort (genIntArray (100));
 		
 		// Print how long the program's been running
 		System.out.println ("Time taken: " + (System.nanoTime() - startTime) + " ns");
