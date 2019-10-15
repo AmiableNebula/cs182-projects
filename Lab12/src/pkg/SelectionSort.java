@@ -1,8 +1,17 @@
 package pkg;
 
+import java.util.Random;
+
 public class SelectionSort {
 	public static void main (String[] args) {
+		// Get program start time
+		long startTime = System.nanoTime();
 		
+		// Peform selection sort on randomized array
+		selectionSort (genIntArray (1000000));
+		
+		// Print how long the program's been running
+		System.out.println ("Time taken: " + (System.nanoTime() - startTime) + " ns");
 	}
 	
 	public static int[] selectionSort (int[] array) {
@@ -25,6 +34,19 @@ public class SelectionSort {
 			int temp = array [i];
 			array [i] = smallest;
 			array [smallestIndex] = temp;
+		}
+		
+		return array;
+	}
+	
+	public static int[] genIntArray (int length) {
+		// Create an empty array with the specified length
+		int[] array = new int [length];
+		
+		// Populate the array with randomly generated integers
+		Random random = new Random();
+		for (int i = 0; i < array.length; i++) {
+			array [i] = random.nextInt();
 		}
 		
 		return array;
