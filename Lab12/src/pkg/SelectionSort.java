@@ -8,7 +8,7 @@ public class SelectionSort {
 		long startTime = System.nanoTime();
 		
 		// Peform selection sort on randomized array
-		selectionSort (genIntArray (100));
+		selectionSort (genRandomArray (100));
 		
 		// Print how long the program's been running
 		System.out.println ("Time taken: " + (System.nanoTime() - startTime) + " ns");
@@ -39,7 +39,7 @@ public class SelectionSort {
 		return array;
 	}
 	
-	public static int[] genIntArray (int length) {
+	public static int[] genRandomArray (int length) {
 		// Create an empty array with the specified length
 		int[] array = new int [length];
 		
