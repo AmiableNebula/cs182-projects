@@ -8,7 +8,7 @@ public class SelectionSort implements Runnable {
 		long startTime = System.nanoTime();
 		
 		// Create several threads that run selection sorts on randomized arrays
-		for (int i = 0; i < 9; i++) {
+		for (int i = 0; i < 3; i++) {
 			Thread thread = new Thread (new SelectionSort());
 			thread.run();
 		}
