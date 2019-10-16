@@ -2,28 +2,19 @@ package pkg;
 
 import java.util.Random;
 
-public class SelectionSort implements Runnable {
+public class SelectionSort {
 	public static void main (String[] args) {
 		// Get program start time
 		long startTime = System.nanoTime();
 		
-		// Create several threads that run selection sorts on randomized arrays
-		for (int i = 0; i < 3; i++) {
-			Thread thread = new Thread (new SelectionSort());
-			thread.run();
-		}
+		// Do selection sort on randomized array
+		selectionSort (genRandomArray (9999));
 		
 		// Print how long the program's been running
 		System.out.println ("Time taken: " + ((System.nanoTime() - startTime) / 1000000000d) + " secs");
 	}
 	
-	@Override
-	public void run() {
-		// Initiate selection sort on randomized array
-		selectionSort (genRandomArray (999999));
-	}
-	
-	public int[] selectionSort (int[] array) {
+	public static int[] selectionSort (int[] array) {
 		// Iterate through the array
 		for (int i = 0; i < array.length; i++) {
 			// Store the first value you see (and its index)
@@ -48,7 +39,7 @@ public class SelectionSort implements Runnable {
 		return array;
 	}
 	
-	public int[] genRandomArray (int length) {
+	public static int[] genRandomArray (int length) {
 		// Create an empty array with the specified length
 		int[] array = new int [length];
 		
