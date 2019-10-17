@@ -6,22 +6,36 @@ public class Project4 {
 	}
 }
 
+// Reference-based deque interface
+interface ReferenceDequeInterface <E> {
+	public boolean isEmpty();
+	public int size();
+	public void addFront (E data);
+	public void addBack (E data);
+	public E removeFront();
+	public E removeBack();
+	
+}
+
 // Reference-based deque
-class ReferenceDeque <E> {
+class ReferenceDeque <E> implements ReferenceDequeInterface <E> {
 	private ReferenceDequeNode <E> head = null;
 	private int nodes = 0;
 	
 	// Returns whether or not the deque is empty
+	@Override
 	public boolean isEmpty() {
 		return head == null && nodes == 0;
 	}
 	
 	// Returns the number of nodes in the deque
+	@Override
 	public int size() {
 		return nodes;
 	}
 	
 	// Adds a node to the front of the deque
+	@Override
 	public void addFront (E data) {
 		if (isEmpty()) {
 			head = new ReferenceDequeNode <E> (data);
@@ -33,6 +47,7 @@ class ReferenceDeque <E> {
 	}
 	
 	// Add a node to the back of the deque
+	@Override
 	public void addBack (E data) {
 		if (isEmpty()) {
 			head = new ReferenceDequeNode <E> (data);
@@ -44,27 +59,37 @@ class ReferenceDeque <E> {
 	}
 	
 	// Removes a node from the front of the deque
+	@Override
 	public E removeFront() {
-		if (isEmpty()) {
-			return null;
-		} else {
-			E data = head.data;
-			head = head.next;
-			nodes--;
-			return data;
+		try {
+			if (isEmpty()) {
+				throw new ReferenceDequeException ("Empty deque");
+			}
+		} catch (ReferenceDequeException e) {
+			e.printError();
 		}
+		
+		E data = head.data;
+		head = head.next;
+		nodes--;
+		return data;
 	}
 	
 	// Remove a node from the back of the deque
+	@Override
 	public E removeBack() {
-		if (isEmpty()) {
-			return null;
-		} else {
-			E data = findNode (size() - 1).data;
-			findNode (size() - 2).next = null;
-			nodes--;
-			return data;
+		try {
+			if (isEmpty()) {
+				throw new ReferenceDequeException ("Empty deque");
+			}
+		} catch (ReferenceDequeException e) {
+			e.printError();
 		}
+		
+		E data = findNode (size() - 1).data;
+		findNode (size() - 2).next = null;
+		nodes--;
+		return data;
 	}
 	
 	// Returns the specified zero-indexed node from the deque
@@ -90,6 +115,20 @@ class ReferenceDequeNode <E> {
 	public ReferenceDequeNode (E data, ReferenceDequeNode <E> next) {
 		this.data = data;
 		this.next = next;
+	}
+}
+
+// Custom exception for reference-based deque
+class ReferenceDequeException extends Throwable {
+	private static final long serialVersionUID = -2402256394274083138L;
+	private String error;
+	
+	public ReferenceDequeException (String error) {
+		this.error = error;
+	}
+	
+	public void printError() {
+		System.err.println (error);
 	}
 }
 
