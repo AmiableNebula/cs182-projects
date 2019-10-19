@@ -52,7 +52,8 @@ class ReferenceDeque <E> implements ReferenceDequeInterface <E> {
 		if (isEmpty()) {
 			head = new ReferenceDequeNode <E> (data);
 		} else {
-			findNode (size() - 1).next = new ReferenceDequeNode <E> (data);
+			ReferenceDequeNode <E> lastNode = findNode (size() - 1);
+			lastNode = new ReferenceDequeNode <E> (lastNode.getData(), new ReferenceDequeNode <E> (data));
 		}
 		
 		nodes++;
@@ -69,8 +70,8 @@ class ReferenceDeque <E> implements ReferenceDequeInterface <E> {
 			e.printError();
 		}
 		
-		E data = head.data;
-		head = head.next;
+		E data = head.getData();
+		head = head.getNext();
 		nodes--;
 		return data;
 	}
@@ -86,8 +87,9 @@ class ReferenceDeque <E> implements ReferenceDequeInterface <E> {
 			e.printError();
 		}
 		
-		E data = findNode (size() - 1).data;
-		findNode (size() - 2).next = null;
+		E data = findNode (size() - 1).getData();
+		ReferenceDequeNode <E> secondToLastNode = findNode (size() - 2);
+		secondToLastNode = new ReferenceDequeNode <E> (secondToLastNode.getData());
 		nodes--;
 		return data;
 	}
@@ -96,7 +98,7 @@ class ReferenceDeque <E> implements ReferenceDequeInterface <E> {
 	private ReferenceDequeNode <E> findNode (int index) {
 		ReferenceDequeNode <E> current = head;
 		for (int i = 0; i < index; i++) {
-			current = current.next;
+			current = current.getNext();
 		}
 		
 		return current;
@@ -105,8 +107,8 @@ class ReferenceDeque <E> implements ReferenceDequeInterface <E> {
 
 // Node used by reference-based deque
 class ReferenceDequeNode <E> {
-	public E data;
-	public ReferenceDequeNode <E> next;
+	private E data;
+	private ReferenceDequeNode <E> next;
 	
 	public ReferenceDequeNode (E data) {
 		this.data = data;
@@ -116,11 +118,19 @@ class ReferenceDequeNode <E> {
 		this.data = data;
 		this.next = next;
 	}
+	
+	public E getData() {
+		return data;
+	}
+	
+	public ReferenceDequeNode <E> getNext() {
+		return next;
+	}
 }
 
 // Custom exception for reference-based deque
+@SuppressWarnings ("serial")
 class ReferenceDequeException extends Throwable {
-	private static final long serialVersionUID = -2402256394274083138L;
 	private String error;
 	
 	public ReferenceDequeException (String error) {
@@ -134,7 +144,7 @@ class ReferenceDequeException extends Throwable {
 
 // String recognizer that implements reference-based deque
 class StringRecognizer {
-	// Returns whether or not the specified string is in this language
+	// Returns whether or not the specified string is palindromatic (is that a word?) about "$"
 	public boolean isInLanguage (String input) {
 		// Return false if the input is an empty string
 		if (input.length() == 0) {
