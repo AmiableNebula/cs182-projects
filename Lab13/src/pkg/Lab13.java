@@ -6,13 +6,15 @@ public class Lab13 {
 	}
 }
 
-interface BinaryTreeInterface {
+interface BinaryTreeInterface <E> {
 	public abstract boolean isEmpty();
 	public abstract int size();
+	public abstract void empty();
+	public abstract void addNode (E data);
 }
 
 // Binary tree ADT
-class BinaryTree <E> implements BinaryTreeInterface {
+class BinaryTree <E> implements BinaryTreeInterface <E> {
 	// Private variables for in-class use
 	private BinaryTreeNode <E> root;
 	private int nodes;
@@ -33,6 +35,23 @@ class BinaryTree <E> implements BinaryTreeInterface {
 	@Override
 	public int size() {
 		return nodes;
+	}
+	
+	// Empties the binary tree
+	@Override
+	public void empty() {
+		root = null;
+		nodes = 0;
+	}
+	
+	// Adds a node to the binary tree
+	@Override
+	public void addNode (E data) {
+		if (isEmpty()) {
+			root = new BinaryTreeNode <E> (data, null, null);
+		} else {
+			
+		}
 	}
 }
 
