@@ -1,5 +1,11 @@
 package pkg;
 
+public class Lab13 {
+	public static void main (String[] args) {
+		
+	}
+}
+
 // Node used by binary tree
 class BinaryTreeNode <E> {
 	// Private variables for in-class use
