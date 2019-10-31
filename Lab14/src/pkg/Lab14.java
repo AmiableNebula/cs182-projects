@@ -2,11 +2,7 @@ package pkg;
 
 public class Lab14 {
 	public static void main (String[] args) {
-		BinaryTree <Integer> binaryTree = new BinaryTree<> (0, 1, 2);
 		
-		binaryTree.traverseInOrder(); System.out.println();
-		binaryTree.traversePreOrder(); System.out.println();
-		binaryTree.traversePostOrder(); System.out.println();
 	}
 }
 
@@ -16,9 +12,8 @@ class BinaryTree <E> {
 	private BinaryTreeNode <E> root = null;
 
 	// Creates a new binary tree and sets its root to hold "data" and adopt "leftChild" and "rightChild"
-	public BinaryTree (E data, E leftChild, E rightChild) {
-		root = new BinaryTreeNode <E> (data, new BinaryTreeNode <E> (leftChild, null, null), 
-				new BinaryTreeNode <E> (rightChild, null, null));
+	public BinaryTree (E data, BinaryTreeNode <E> leftChild, BinaryTreeNode <E> rightChild) {
+		root = new BinaryTreeNode <E> (data, leftChild, rightChild);
 	}
 
 	// Returns whether or not the binary tree is empty
