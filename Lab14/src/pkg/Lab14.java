@@ -1,11 +1,5 @@
 package pkg;
 
-public class Lab14 {
-	public static void main (String[] args) {
-		
-	}
-}
-
 // Reference-based binary tree
 class BinaryTree <E> {
 	// Private variables for in-class use
