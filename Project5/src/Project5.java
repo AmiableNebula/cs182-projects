@@ -6,93 +6,25 @@ import java.nio.file.Paths;
 
 public class Project5 {
 	public static void main (String[] args) {
-		PhoneBookMenu pbm = new PhoneBookMenu (new PhoneBook ("src/phonebook.txt"));
-		pbm.quit();
+		
 	}
 }
 
 /**
- * Wrapper for {@link PhoneBook} methods
- * @author Sarah Ramsey-McNeil
- */
-class PhoneBookMenu {
-	// Linked PhoneBook
-	private PhoneBook pb;
-
-	/**
-	 * Creates a new PhoneBook menu and links it to a PhoneBook
-	 * @param pb The PhoneBook to link to
-	 */
-	public PhoneBookMenu (PhoneBook pb) {
-		this.pb = pb;
-	}
-
-	/**
-	 * Adds a new Person to the PhoneBook
-	 * @param name The Person's name
-	 * @param phoneNumber The Person's phone number
-	 */
-	public void add (String name, String phoneNumber) {
-		pb.add (new Person (name, phoneNumber));
-	}
-
-	/**
-	 * Removes a Person from the PhoneBook given their name
-	 * @param name The Person's name
-	 */
-	public void delete (String name) {
-		pb.delete (name);
-	}
-
-	/**
-	 * Returns a Person from the PhoneBook given their name
-	 * @param name The Person's name
-	 * @return The Person
-	 */
-	public Person find (String name) {
-		return pb.find (name);
-	}
-
-	/**
-	 * Edits a Person's phoneNumber given their name
-	 * @param name The name of the Person whose phone number to edit
-	 * @param phoneNumber The new phone number
-	 */
-	public void change (String name, String phoneNumber) {
-		pb.change (name, phoneNumber);
-	}
-
-	/**
-	 * Returns the number of Persons in the PhoneBook
-	 * @return The number of Persons in the PhoneBook
-	 */
-	public int count() {
-		return pb.count();
-	}
-
-	/**
-	 * Saves the contents of the PhoneBook to its external file
-	 */
-	public void quit() {
-		pb.quit();
-	}
-}
-
-/**
- * Represents a list of Persons stored in an external file. It is recommended that you access this class through {@link PhoneBookMenu} 
- * rather than directly
+ * Represents a list of Persons stored in an external file
  * @author Sarah Ramsey-McNeil
  */
 class PhoneBook {
-	private BinarySearchTree pb = new BinarySearchTree();
+	private BinarySearchTree bst;
 	private String path;
 
 	/**
-	 * Creates a new PhoneBook from the contents of a given file
+	 * Creates a new PhoneBook from the contents of a file
 	 * @param path The path to the file from which the PhoneBook is generated
 	 */
 	public PhoneBook (String path) {
 		try {
+			bst = new BinarySearchTree();
 			this.path = path;
 			String file = Files.readString (Paths.get (path));
 
@@ -104,7 +36,7 @@ class PhoneBook {
 
 					for (int j = 0; j < substring.length(); j++) {
 						if (substring.charAt (j) == ':') {
-							add (new Person (substring.substring (0, j), substring.substring (j + 2, substring.length())));
+							add (substring.substring (0, j), substring.substring (j + 2, substring.length()));
 						}
 					}
 				}
@@ -115,44 +47,71 @@ class PhoneBook {
 		}
 	}
 
-	public void add (Person person) {
-		if (!pb.contains (person.getName())) {
-			pb.insert (person);
+	/**
+	 * Adds a new Person to the PhoneBook
+	 * @param name The Person's name
+	 * @param phoneNumber The Person's phone number
+	 */
+	public void add (String name, String phoneNumber) {
+		Person person = new Person (name, phoneNumber);
+		if (!bst.contains (person.getName())) {
+			bst.insert (person);
 		} else {
 			throw new RuntimeException ("Duplicate names not allowed");
 		}
 	}
 
+	/**
+	 * Removes a Person from the PhoneBook
+	 * @param name The name of the Person to be removed
+	 */
 	public void delete (String name) {
-		if (pb.contains (name)) {
-			pb.delete (name);
+		if (bst.contains (name)) {
+			bst.delete (name);
 		} else {
 			throw new RuntimeException ("Person not found");
 		}
 	}
 
+	/**
+	 * Returns a Person from the PhoneBook
+	 * @param name The name of the Person to be returned
+	 * @return The found Person
+	 */
 	public Person find (String name) {
-		if (pb.contains (name)) {
-			return pb.search (name).getData();
+		if (bst.contains (name)) {
+			return bst.search (name).getData();
 		} else {
 			throw new RuntimeException ("Person not found");
 		}
 	}
 
+	/**
+	 * Edits a Person's phone number
+	 * @param name The Person's name
+	 * @param phoneNumber The Person's new phone number
+	 */
 	public void change (String name, String phoneNumber) {
-		if (pb.contains (name)) {
-			BinarySearchTreeNode node = pb.search (name);
+		if (bst.contains (name)) {
+			BinarySearchTreeNode node = bst.search (name);
 			node = new BinarySearchTreeNode (new Person (name, phoneNumber), node.getLeftChild(), node.getRightChild());
 		}
 	}
 
+	/**
+	 * Returns the number of Persons in the PhoneBook
+	 * @return The number of Persons in the PhoneBook
+	 */
 	public int count() {
-		return pb.count();
+		return bst.count();
 	}
 
+	/**
+	 * Saves the PhoneBook to its external file
+	 */
 	public void quit() {
 		try (PrintWriter pw = new PrintWriter (path)) {
-			pw.print (pb.toString());
+			pw.print (bst.toString());
 		} catch (FileNotFoundException e) {
 			System.err.println ("Couldn't write to file");
 			e.printStackTrace();
