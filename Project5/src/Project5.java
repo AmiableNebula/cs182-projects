@@ -3,10 +3,73 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Scanner;
 
 public class Project5 {
 	public static void main (String[] args) {
 		
+	}
+}
+
+/**
+ * Provides a CLI through Java's standard I/O streams for interacting with {@link PhoneBook};
+ * @author Sarah Ramsey-McNeil
+ */
+class PhoneBookMenu {
+	private PhoneBook pb;
+	
+	/**
+	 * Creates a new instance of this class and links it to a PhoneBook
+	 * @param path Path to the file from which the PhoneBook is generated
+	 */
+	public PhoneBookMenu (String path) {
+		pb = new PhoneBook (path);
+	}
+	
+	/**
+	 * Starts the command-line interface
+	 */
+	public void start() {
+		System.out.println ("Enter a command. For a list of commands, type \"help\"");
+		Scanner scanner = new Scanner (System.in);
+		
+		while (true) {
+			String nl = scanner.nextLine();
+			
+			if (nl.equals ("quit")) {
+				System.out.println ("Terminated");
+				break;
+			} else if (nl.equals ("help")) {
+				System.out.println ("Valid commands: add, delete, find, change, count, quit");
+			} else if (nl.equals ("add")) {
+				System.out.print ("Enter the name of who to add: ");
+				String name = scanner.nextLine();
+				System.out.print ("Now enter their phone number: ");
+				String phoneNumber = scanner.nextLine();
+				pb.add (name, phoneNumber);
+				System.out.println ("Added!");
+			} else if (nl.equals ("delete")) {
+				System.out.print ("Enter the name of who to delete: ");
+				pb.delete (scanner.nextLine());
+				System.out.println ("Deleted!");
+			} else if (nl.equals ("find")) {
+				System.out.print ("Enter the name of who to find: ");
+				System.out.println ("Found phone number: " + pb.find (scanner.nextLine()).getPhoneNumber());
+			} else if (nl.equals ("change")) {
+				System.out.print ("Enter the name of who to change: ");
+				String name = scanner.nextLine();
+				System.out.print ("Now enter their new phone number: ");
+				String phoneNumber = scanner.nextLine();
+				pb.change (name, phoneNumber);
+				System.out.println ("Changed!");
+			} else if (nl.equals ("count")) {
+				System.out.println ("Count: " + pb.count());
+			} else {
+				System.out.println ("Unrecognized command. For a list of commands, type \"help\"");
+			}
+		}
+		
+		scanner.close();
 	}
 }
 
