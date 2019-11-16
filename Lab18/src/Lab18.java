@@ -1,18 +1,18 @@
 public class Lab18 {
 	public static void main (String[] args) {
-		System.out.println (hashCode ("NotLikeThis"));
+		hashCode ("zfgRunOgre");
 	}
 	
-	public static int hashCode (String str) {
-		int strInt = 0;
+	public static void hashCode (String str) {
 		try {
-			strInt = Integer.parseInt (str);
+			System.out.println (Integer.parseInt (str));
 		} catch (NumberFormatException e) {
+			int hashCode = 0;
 			for (int i = 0; i < str.length(); i++) {
-				strInt += str.charAt (i) * 2;
+				hashCode += str.charAt (i) * 2;
 			}
+			
+			System.out.println (hashCode);
 		}
-		
-		return strInt;
 	}
 }
